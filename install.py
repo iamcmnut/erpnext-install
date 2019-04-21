@@ -13,12 +13,12 @@ def install_bench(args):
 
 	success = run_os_command({
 		'apt-get': [
-			'sudo apt-get update',
-			'sudo apt-get install -y git build-essential python-setuptools python-dev libffi-dev libssl-dev'
+			'apt-get update',
+			'apt-get install -y git build-essential python-setuptools python-dev libffi-dev libssl-dev'
 		],
 		'yum': [
-			'sudo yum groupinstall -y "Development tools"',
-			'sudo yum install -y epel-release redhat-lsb-core git python-setuptools python-devel openssl-devel libffi-devel'
+			'yum groupinstall -y "Development tools"',
+			'yum install -y epel-release redhat-lsb-core git python-setuptools python-devel openssl-devel libffi-devel'
 		],
 		# epel-release is required to install redis, so installing it before the playbook-run.
 		# redhat-lsb-core is required, so that ansible can set ansible_lsb variable
@@ -36,7 +36,7 @@ def install_bench(args):
 	# secure pip installation
 	if find_executable('pip'):
 		run_os_command({
-			'pip': 'sudo pip install --upgrade setuptools cryptography pip'
+			'pip': 'pip install --upgrade setuptools cryptography pip'
 		})
 
 	else:
@@ -46,16 +46,16 @@ def install_bench(args):
 			})
 
 		success = run_os_command({
-			'python': 'sudo python get-pip.py --force-reinstall'
+			'python': 'python get-pip.py --force-reinstall'
 		})
 
 		if success:
 			run_os_command({
-				'pip': 'sudo pip install --upgrade setuptools requests cryptography pip'
+				'pip': 'pip install --upgrade setuptools requests cryptography pip'
 			})
 
 	success = run_os_command({
-		'pip': "sudo pip install --upgrade cryptography ansible"
+		'pip': "pip install --upgrade cryptography ansible"
 	})
 
 	if not success:
@@ -161,8 +161,8 @@ def install_python27():
 
 	# install python 2.7
 	success = run_os_command({
-		'apt-get': 'sudo apt-get install -y python-dev',
-		'yum': 'sudo yum install -y python27',
+		'apt-get': 'apt-get install -y python-dev',
+		'yum': 'yum install -y python27',
 		'brew': 'brew install python'
 	})
 
@@ -177,8 +177,8 @@ def install_package(package):
 
 	if not package_exec:
 		success = run_os_command({
-			'apt-get': ['sudo apt-get install -y {0}'.format(package)],
-			'yum': ['sudo yum install -y {0}'.format(package)]
+			'apt-get': ['apt-get install -y {0}'.format(package)],
+			'yum': ['yum install -y {0}'.format(package)]
 		})
 	else:
 		return
